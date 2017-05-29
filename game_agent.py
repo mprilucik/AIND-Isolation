@@ -4,7 +4,6 @@ and include the results in your report.
 """
 import random
 
-
 class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
     pass
@@ -213,8 +212,50 @@ class MinimaxPlayer(IsolationPlayer):
             raise SearchTimeout()
 
         # TODO: finish this function!
-        raise NotImplementedError
+        legal_moves = game.get_legal_moves()
+#        print ('legal_moves', legal_moves, depth)
+        if not legal_moves:
+            return (-1, -1)
+        v, move = max([(self.__min_value(game.forecast_move(m), depth - 1 ), m) for m in legal_moves])
+#        print ('res, ',  v, move)
+        return move        
 
+    
+    def __min_value(self, game, depth):
+       if self.time_left() < self.TIMER_THRESHOLD:
+           raise SearchTimeout()
+
+       legal_moves = game.get_legal_moves()      
+#       print ('__min_value legal_moves', legal_moves, depth)
+       if depth == 0 or not legal_moves:
+           return self.score(game, game.active_player)
+
+       v = float("inf")
+#       for move in legal_moves:
+#           v = min (v, self.__max_value(game.forecast_move(move), depth - 1))
+#           print ('__min_value', v, move)
+       v, move = min([(self.__max_value(game.forecast_move(m), depth - 1 ), m) for m in legal_moves])           
+#       print ('__min_value lm=', legal_moves, 'd=', depth, 'v=', v , 'm=', move)              
+       return v
+
+    def __max_value(self, game, depth):
+       if self.time_left() < self.TIMER_THRESHOLD:
+           raise SearchTimeout()
+       
+       legal_moves = game.get_legal_moves()
+#       print ('__max_value legal_moves', legal_moves, depth)       
+
+       if depth == 0 or not legal_moves:
+           return self.score(game, game.active_player)
+
+       v = float("-inf")
+#       for move in legal_moves:
+#           v = max (v, self.__min_value(game.forecast_move(move), depth - 1))
+       v, move = max([(self.__min_value(game.forecast_move(m), depth - 1 ), m) for m in legal_moves])           
+#       print ('__max_value lm=', legal_moves, 'd=', depth, 'v=', v , 'm=', move)              
+       return v
+       
+        
 
 class AlphaBetaPlayer(IsolationPlayer):
     """Game-playing agent that chooses a move using iterative deepening minimax
