@@ -55,6 +55,14 @@ class Board(object):
     def hash(self):
         return str(self._board_state).__hash__()
 
+
+    @property
+    def board_state(self):
+        return self._board_state
+    
+    def set_board_state(self, board_state):
+        self._board_state = board_state
+    
     @property
     def active_player(self):
         """The object registered as the player holding initiative in the

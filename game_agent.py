@@ -213,11 +213,9 @@ class MinimaxPlayer(IsolationPlayer):
 
         # TODO: finish this function!
         legal_moves = game.get_legal_moves()
-#        print ('legal_moves', legal_moves, depth)
         if not legal_moves:
             return (-1, -1)
-        v, move = max([(self.__min_value(game.forecast_move(m), depth - 1 ), m) for m in legal_moves])
-#        print ('res, ',  v, move)
+        _, move = max([(self.__min_value(game.forecast_move(m), depth -1 ), m) for m in legal_moves])
         return move        
 
     
@@ -226,16 +224,12 @@ class MinimaxPlayer(IsolationPlayer):
            raise SearchTimeout()
 
        legal_moves = game.get_legal_moves()      
-#       print ('__min_value legal_moves', legal_moves, depth)
+       
        if depth == 0 or not legal_moves:
-           return self.score(game, game.active_player)
-
-       v = float("inf")
-#       for move in legal_moves:
-#           v = min (v, self.__max_value(game.forecast_move(move), depth - 1))
-#           print ('__min_value', v, move)
-       v, move = min([(self.__max_value(game.forecast_move(m), depth - 1 ), m) for m in legal_moves])           
-#       print ('__min_value lm=', legal_moves, 'd=', depth, 'v=', v , 'm=', move)              
+           return self.score(game, self)
+       
+       v =  min([(self.__max_value(game.forecast_move(m), depth - 1 )) for m in legal_moves])           
+       
        return v
 
     def __max_value(self, game, depth):
@@ -243,16 +237,11 @@ class MinimaxPlayer(IsolationPlayer):
            raise SearchTimeout()
        
        legal_moves = game.get_legal_moves()
-#       print ('__max_value legal_moves', legal_moves, depth)       
 
        if depth == 0 or not legal_moves:
-           return self.score(game, game.active_player)
+           return self.score(game, self)
 
-       v = float("-inf")
-#       for move in legal_moves:
-#           v = max (v, self.__min_value(game.forecast_move(move), depth - 1))
-       v, move = max([(self.__min_value(game.forecast_move(m), depth - 1 ), m) for m in legal_moves])           
-#       print ('__max_value lm=', legal_moves, 'd=', depth, 'v=', v , 'm=', move)              
+       v = max([(self.__min_value(game.forecast_move(m), depth - 1 )) for m in legal_moves])           
        return v
        
         
