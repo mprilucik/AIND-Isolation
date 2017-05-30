@@ -288,15 +288,25 @@ class AlphaBetaPlayer(IsolationPlayer):
 
         # Initialize the best move so that this function returns something
         # in case the search fails due to timeout
-        best_move = (-1, -1)
+        no_move = (-1, -1)
+        best_move = no_move
+        legal_moves = game.get_legal_moves()
+        if legal_moves:
+            # to return something pick the 1st poss move
+            best_move = legal_moves[0]
 
         try:
             # The try/except block will automatically catch the exception
             # raised when the timer is about to expire.
-            return self.alphabeta(game, self.search_depth)
-
+            i = 0
+            while True:
+                i += 1
+                move = self.alphabeta(game, i)
+                if move != no_move:
+                    best_move = move
+            return best_move
         except SearchTimeout:
-            pass  # Handle any actions required after timeout as needed
+            return best_move
 
         # Return the best move from the last completed search iteration
         return best_move
