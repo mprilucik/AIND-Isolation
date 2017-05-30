@@ -7,7 +7,7 @@ own agent and example heuristic functions.
 """
 import timeit
 from random import randint
-from game_agent import MinimaxPlayer
+from game_agent import MinimaxPlayer, AlphaBetaPlayer
 
 def null_score(game, player):
     """This heuristic presumes no knowledge for non-terminal states, and
@@ -257,11 +257,12 @@ if __name__ == "__main__":
 
     # create an isolation board (by default 7x7)
     #player1 = RandomPlayer()
-    player2 = MinimaxPlayer(score_fn=open_move_score, search_depth=1)
+#    player2 = MinimaxPlayer(score_fn=open_move_score, search_depth=1)
+    player2 = AlphaBetaPlayer(score_fn=open_move_score, search_depth=2)
     player1 = GreedyPlayer()
     game = Board(player1, player2, width=9, height=9)
     
-    game.set_board_state([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 37])
+    game.set_board_state([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 57, 29])
     print("\nS tate:\n{}".format(game.to_string()))
     time_millis = lambda: 1000 * timeit.default_timer()
     move_start = time_millis()
