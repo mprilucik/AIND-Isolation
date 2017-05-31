@@ -1,0 +1,281 @@
+
+def custom_score(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    D11, D12 = [0,0], [game.width, game.height]
+    D21, D22 = [0,game.height], [game.width, 0]
+    
+    y, x = game.get_player_location(player)
+    L = [y,x]
+    D1 = norm(cross(subtract(D12,D11), subtract(D11,L)))/norm(numpy.subtract(D12,D11))
+    D2 = norm(cross(subtract(D22,D21), subtract(D21,L)))/norm(numpy.subtract(D22, D21))
+    return 100 - max(D1, D2)    
+
+
+def custom_score_2(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    D11, D12 = [0,0], [game.width, game.height]
+    D21, D22 = [0,game.height], [game.width, 0]
+    
+    y, x = game.get_player_location(player)
+    L = [y,x]
+    D1 = norm(cross(subtract(D12,D11), subtract(D11,L)))/norm(numpy.subtract(D12,D11))
+    D2 = norm(cross(subtract(D22,D21), subtract(D21,L)))/norm(numpy.subtract(D22, D21))
+    return min(D1, D2)    
+
+
+def custom_score_3(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    D11, D12 = [0,0], [game.width, game.height]
+    D21, D22 = [0,game.height], [game.width, 0]
+    
+    y, x = game.get_player_location(player)
+    L = [y,x]
+    D1 = norm(cross(subtract(D12,D11), subtract(D11,L)))/norm(numpy.subtract(D12,D11))
+    D2 = norm(cross(subtract(D22,D21), subtract(D21,L)))/norm(numpy.subtract(D22, D21))
+    return max(D1, D2)    
+
+                        *************************                         
+                             Playing Matches                              
+                        *************************                         
+
+ Match #   Opponent    AB_Improved   AB_Custom   AB_Custom_2  AB_Custom_3 
+                        Won | Lost   Won | Lost   Won | Lost   Won | Lost 
+    1       Random      10  |   0    10  |   0    10  |   0    10  |   0  
+    2       MM_Open      8  |   2     8  |   2     7  |   3     9  |   1  
+    3      MM_Center    10  |   0    10  |   0    10  |   0    10  |   0  
+    4     MM_Improved    9  |   1     8  |   2     9  |   1     9  |   1  
+    5       AB_Open      6  |   4     4  |   6     3  |   7     5  |   5  
+    6      AB_Center     5  |   5     7  |   3     5  |   5     2  |   8  
+    7     AB_Improved    5  |   5     5  |   5     3  |   7     4  |   6  
+--------------------------------------------------------------------------
+           Win Rate:      75.7%        74.3%        67.1%        70.0%   
+===========================================================================================================
+		   
+
+def custom_score(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    D11, D12 = [0,0], [game.width, game.height]
+    D21, D22 = [0,game.height], [game.width, 0]
+    
+    y, x = game.get_player_location(player)
+    L = [y,x]
+    D1 = norm(cross(subtract(D12,D11), subtract(D11,L)))/norm(numpy.subtract(D12,D11))
+    D2 = norm(cross(subtract(D22,D21), subtract(D21,L)))/norm(numpy.subtract(D22, D21))
+    return 100 - max(D1, D2)    
+
+
+def custom_score_2(game, player):
+    D11, D12 = [0,0], [game.width, game.height]
+    D21, D22 = [0,game.height], [game.width, 0]
+    
+    y, x = game.get_player_location(player)
+    L = [y,x]
+    D1 = norm(cross(subtract(D12,D11), subtract(D11,L)))/norm(numpy.subtract(D12,D11))
+    D2 = norm(cross(subtract(D22,D21), subtract(D21,L)))/norm(numpy.subtract(D22, D21))
+    
+    return float(len(game.get_legal_moves(player))) - max(D1, D2)    
+
+
+def custom_score_3(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    D11, D12 = [0,0], [game.width, game.height]
+    D21, D22 = [0,game.height], [game.width, 0]
+    
+    y, x = game.get_player_location(player)
+    L = [y,x]
+    D1 = norm(cross(subtract(D12,D11), subtract(D11,L)))/norm(numpy.subtract(D12,D11))
+    D2 = norm(cross(subtract(D22,D21), subtract(D21,L)))/norm(numpy.subtract(D22, D21))
+    return 100 - min(D1, D2)   		   
+		   
+		   
+                        *************************                         
+                             Playing Matches                              
+                        *************************                         
+
+ Match #   Opponent    AB_Improved   AB_Custom   AB_Custom_2  AB_Custom_3 
+                        Won | Lost   Won | Lost   Won | Lost   Won | Lost 
+    1       Random      10  |   0    10  |   0    10  |   0    10  |   0  
+    2       MM_Open     10  |   0    10  |   0    10  |   0     8  |   2  
+    3      MM_Center    10  |   0    10  |   0    10  |   0    10  |   0  
+    4     MM_Improved    9  |   1     5  |   5     5  |   5     8  |   2  
+    5       AB_Open      4  |   6     4  |   6     4  |   6     4  |   6  
+    6      AB_Center     7  |   3     5  |   5     5  |   5     5  |   5  
+    7     AB_Improved    4  |   6     6  |   4     2  |   8     4  |   6  
+--------------------------------------------------------------------------
+           Win Rate:      77.1%        71.4%        65.7%        70.0%  
+		   
+=========================================================================================================
+
+def custom_score(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    D11, D12 = [0,0], [game.width, game.height]
+    D21, D22 = [0,game.height], [game.width, 0]
+    
+    y, x = game.get_player_location(player)
+    L = [y,x]
+    D1 = norm(cross(subtract(D12,D11), subtract(D11,L)))/norm(numpy.subtract(D12,D11))
+    D2 = norm(cross(subtract(D22,D21), subtract(D21,L)))/norm(numpy.subtract(D22, D21))
+    return 100 - max(D1, D2)    
+
+
+def custom_score_2(game, player):
+
+    # TODO: finish this function!
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    opp = game.get_opponent(player)
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    distance = float(norm(subtract(my_loc,opp_loc)))
+    return distance
+
+
+def custom_score_3(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    own_moves = len(game.get_legal_moves(player))
+    opp = game.get_opponent(player)
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    distance = float(12 - norm(subtract(my_loc,opp_loc)))
+    return distance
+
+                        *************************                         
+                             Playing Matches                              
+                        *************************                         
+
+ Match #   Opponent    AB_Improved   AB_Custom   AB_Custom_2  AB_Custom_3 
+                        Won | Lost   Won | Lost   Won | Lost   Won | Lost 
+    1       Random       9  |   1     9  |   1     8  |   2    10  |   0  
+    2       MM_Open      8  |   2     7  |   3     7  |   3     8  |   2  
+    3      MM_Center    10  |   0    10  |   0    10  |   0    10  |   0  
+    4     MM_Improved    8  |   2     6  |   4     9  |   1     6  |   4  
+    5       AB_Open      4  |   6     3  |   7     5  |   5     6  |   4  
+    6      AB_Center     6  |   4     5  |   5     6  |   4     4  |   6  
+    7     AB_Improved    6  |   4     6  |   4     4  |   6     5  |   5  
+--------------------------------------------------------------------------
+           Win Rate:      72.9%        65.7%        70.0%        70.0%  
+=================================================================================================
+def custom_score(game, player):
+    # TODO: finish this function!
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    opp = game.get_opponent(player)
+    
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(opp))
+    n_moves =  float(own_moves - opp_moves)  
+    
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    
+    return n_moves + distance
+
+
+def custom_score_2(game, player):
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+
+    opp = game.get_opponent(player)
+    
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(opp))
+    n_moves =  float(own_moves - opp_moves)  
+    
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    
+    center_loc = game.width / 2., game.height / 2.
+    center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
+    
+    return n_moves + center_distance + distance
+
+
+def custom_score_3(game, player):
+
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    opp = game.get_opponent(player)
+    
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(opp))
+    n_moves =  float(own_moves - opp_moves)  
+    
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    
+    center_loc = game.width / 2., game.height / 2.
+    center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
+    
+    return 19 * n_moves + 17 * center_distance + 13 * distance
+
+
+                        *************************                         
+                             Playing Matches                              
+                        *************************                         
+
+ Match #   Opponent    AB_Improved   AB_Custom   AB_Custom_2  AB_Custom_3 
+                        Won | Lost   Won | Lost   Won | Lost   Won | Lost 
+    1       Random       9  |   1    10  |   0    10  |   0    10  |   0  
+    2       MM_Open      9  |   1     9  |   1    10  |   0    10  |   0  
+    3      MM_Center    10  |   0    10  |   0    10  |   0    10  |   0  
+    4     MM_Improved    8  |   2     8  |   2     7  |   3    10  |   0  
+    5       AB_Open      5  |   5     8  |   2     7  |   3     5  |   5  
+    6      AB_Center     6  |   4     5  |   5     5  |   5     5  |   5  
+    7     AB_Improved    6  |   4     6  |   4     5  |   5     5  |   5  
+--------------------------------------------------------------------------
+           Win Rate:      75.7%        80.0%        77.1%        78.6%    
+

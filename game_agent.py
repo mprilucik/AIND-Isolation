@@ -3,6 +3,9 @@ test your agent's strength against a set of known agents using tournament.py
 and include the results in your report.
 """
 import random
+import numpy
+from numpy import cross, subtract
+from numpy.linalg import norm
 
 class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
@@ -34,7 +37,23 @@ def custom_score(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+    opp = game.get_opponent(player)
+    
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(opp))
+    n_moves =  float(own_moves - opp_moves)  
+    
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    
+    return n_moves + distance
 
 
 def custom_score_2(game, player):
@@ -60,7 +79,27 @@ def custom_score_2(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+    
+
+    opp = game.get_opponent(player)
+    
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(opp))
+    n_moves =  float(own_moves - opp_moves)  
+    
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    
+    center_loc = game.width / 2., game.height / 2.
+    center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
+    
+    return n_moves + center_distance + distance
 
 
 def custom_score_3(game, player):
@@ -86,7 +125,26 @@ def custom_score_3(game, player):
         The heuristic value of the current game state to the specified player.
     """
     # TODO: finish this function!
-    raise NotImplementedError
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    opp = game.get_opponent(player)
+    
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(opp))
+    n_moves =  float(own_moves - opp_moves)  
+    
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    
+    center_loc = game.width / 2., game.height / 2.
+    center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
+    
+    return 19 * n_moves + 17 * center_distance + 13 * distance
 
 
 class IsolationPlayer:
@@ -304,7 +362,6 @@ class AlphaBetaPlayer(IsolationPlayer):
                 move = self.alphabeta(game, i)
                 if move != no_move:
                     best_move = move
-            return best_move
         except SearchTimeout:
             return best_move
 
