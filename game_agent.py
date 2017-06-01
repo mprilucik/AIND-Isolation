@@ -11,12 +11,9 @@ class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
     pass
 
-
 def custom_score(game, player):
     """Calculate the heuristic value of a game state from the point of view
     of the given player.
-
-    This should be the best heuristic function for your project submission.
 
     Note: this function should be called from within a Player instance as
     `self.score()` -- you should not need to call this function directly.
@@ -42,7 +39,7 @@ def custom_score(game, player):
 
     if game.is_winner(player):
         return float("inf")
-    
+
     opp = game.get_opponent(player)
     
     own_moves = len(game.get_legal_moves(player))
@@ -51,9 +48,22 @@ def custom_score(game, player):
     
     opp_loc = game.get_player_location(opp)
     my_loc = game.get_player_location(player)
-    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    players_distance = float(norm(subtract(my_loc,opp_loc)))    
     
-    return n_moves + distance
+    center_loc = game.width / 2., game.height / 2.
+    center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
+    
+    blank = float(len(game.get_blank_spaces()))
+    space = float(game.width * game.height)
+    space_left = blank/space 
+#    print('space_left', space_left)
+#    return n_moves + (space_left * center_distance) + ((1-space_left) * players_distance)
+    if space_left > 95:
+        return center_distance
+    else:
+        return n_moves + players_distance
+
+
 
 
 def custom_score_2(game, player):
@@ -94,17 +104,26 @@ def custom_score_2(game, player):
     
     opp_loc = game.get_player_location(opp)
     my_loc = game.get_player_location(player)
-    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    players_distance = float(norm(subtract(my_loc,opp_loc)))    
     
     center_loc = game.width / 2., game.height / 2.
     center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
     
-    return n_moves + center_distance + distance
+    blank = float(len(game.get_blank_spaces()))
+    space = float(game.width * game.height)
+    space_left = blank/space 
+#    print('space_left', space_left)
+    if space_left > 92:
+        return center_distance
+    else:
+        return n_moves + players_distance
 
 
 def custom_score_3(game, player):
     """Calculate the heuristic value of a game state from the point of view
     of the given player.
+
+    This should be the best heuristic function for your project submission.
 
     Note: this function should be called from within a Player instance as
     `self.score()` -- you should not need to call this function directly.
@@ -130,7 +149,7 @@ def custom_score_3(game, player):
 
     if game.is_winner(player):
         return float("inf")
-
+    
     opp = game.get_opponent(player)
     
     own_moves = len(game.get_legal_moves(player))
@@ -139,13 +158,16 @@ def custom_score_3(game, player):
     
     opp_loc = game.get_player_location(opp)
     my_loc = game.get_player_location(player)
-    distance = float(12 - norm(subtract(my_loc,opp_loc)))    
+    players_distance = float(norm(subtract(my_loc,opp_loc)))    
     
     center_loc = game.width / 2., game.height / 2.
     center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
     
-    return 19 * n_moves + 17 * center_distance + 13 * distance
-
+    blank = float(len(game.get_blank_spaces()))
+    space = float(game.width * game.height)
+    space_left = blank/space 
+#    print('space_left', space_left)
+    return n_moves + (space_left * center_distance) + ((1-space_left) * players_distance)
 
 class IsolationPlayer:
     """Base class for minimax and alphabeta agents -- this class is never
