@@ -11,6 +11,9 @@ class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
     pass
 
+
+
+
 def custom_score(game, player):
     """Calculate the heuristic value of a game state from the point of view
     of the given player.
@@ -39,6 +42,7 @@ def custom_score(game, player):
 
     if game.is_winner(player):
         return float("inf")
+    
 
     opp = game.get_opponent(player)
     
@@ -48,78 +52,28 @@ def custom_score(game, player):
     
     opp_loc = game.get_player_location(opp)
     my_loc = game.get_player_location(player)
+    # how far are the players from each other, the further the bigger number
     players_distance = float(norm(subtract(my_loc,opp_loc)))    
     
     center_loc = game.width / 2., game.height / 2.
+    # how far are the players from the center of board
+    # the closer the bigger value - substracted from constant 6 as max distance from center
+    # TODO - the max distance could be rather calculated from board size - width, height
     center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
     
     blank = float(len(game.get_blank_spaces()))
     space = float(game.width * game.height)
+    # percengate of space left
     space_left = blank/space 
-#    print('space_left', space_left)
-#    return n_moves + (space_left * center_distance) + ((1-space_left) * players_distance)
-    if space_left > 95:
+    
+    # during the begining of the game  4 plies each try to stay at the center of the board
+    if space_left > 92:
         return center_distance
-    else:
+    else: # consider advantage in number of moves and distance from oponent
         return n_moves + players_distance
-
-
 
 
 def custom_score_2(game, player):
-    """Calculate the heuristic value of a game state from the point of view
-    of the given player.
-
-    Note: this function should be called from within a Player instance as
-    `self.score()` -- you should not need to call this function directly.
-
-    Parameters
-    ----------
-    game : `isolation.Board`
-        An instance of `isolation.Board` encoding the current state of the
-        game (e.g., player locations and blocked cells).
-
-    player : object
-        A player instance in the current game (i.e., an object corresponding to
-        one of the player objects `game.__player_1__` or `game.__player_2__`.)
-
-    Returns
-    -------
-    float
-        The heuristic value of the current game state to the specified player.
-    """
-    # TODO: finish this function!
-    if game.is_loser(player):
-        return float("-inf")
-
-    if game.is_winner(player):
-        return float("inf")
-    
-
-    opp = game.get_opponent(player)
-    
-    own_moves = len(game.get_legal_moves(player))
-    opp_moves = len(game.get_legal_moves(opp))
-    n_moves =  float(own_moves - opp_moves)  
-    
-    opp_loc = game.get_player_location(opp)
-    my_loc = game.get_player_location(player)
-    players_distance = float(norm(subtract(my_loc,opp_loc)))    
-    
-    center_loc = game.width / 2., game.height / 2.
-    center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
-    
-    blank = float(len(game.get_blank_spaces()))
-    space = float(game.width * game.height)
-    space_left = blank/space 
-#    print('space_left', space_left)
-    if space_left > 92:
-        return center_distance
-    else:
-        return n_moves + players_distance
-
-
-def custom_score_3(game, player):
     """Calculate the heuristic value of a game state from the point of view
     of the given player.
 
@@ -158,16 +112,80 @@ def custom_score_3(game, player):
     
     opp_loc = game.get_player_location(opp)
     my_loc = game.get_player_location(player)
+    # how far are the players from each other, the further the bigger number
     players_distance = float(norm(subtract(my_loc,opp_loc)))    
     
     center_loc = game.width / 2., game.height / 2.
+    # how far are the players from the center of board
+    # the closer the bigger value - substracted from constant 6 as max distance from center
+    # TODO - the max distance could be rather calculated from board size - width, height
     center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
     
     blank = float(len(game.get_blank_spaces()))
     space = float(game.width * game.height)
+    # percengate of space left
     space_left = blank/space 
-#    print('space_left', space_left)
+    # return the value that considers the advandage in number of moves 
+    # the more space is left the more we should stay at center
+    # plus the more game proceeds the further we want to be from opponent
     return n_moves + (space_left * center_distance) + ((1-space_left) * players_distance)
+
+
+def custom_score_3(game, player):
+    """Calculate the heuristic value of a game state from the point of view
+    of the given player.
+
+    Note: this function should be called from within a Player instance as
+    `self.score()` -- you should not need to call this function directly.
+
+    Parameters
+    ----------
+    game : `isolation.Board`
+        An instance of `isolation.Board` encoding the current state of the
+        game (e.g., player locations and blocked cells).
+
+    player : object
+        A player instance in the current game (i.e., an object corresponding to
+        one of the player objects `game.__player_1__` or `game.__player_2__`.)
+
+    Returns
+    -------
+    float
+        The heuristic value of the current game state to the specified player.
+    """
+    # TODO: finish this function!
+    if game.is_loser(player):
+        return float("-inf")
+
+    if game.is_winner(player):
+        return float("inf")
+
+    opp = game.get_opponent(player)
+    
+    own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(opp))
+    n_moves =  float(own_moves - opp_moves)  
+    
+    opp_loc = game.get_player_location(opp)
+    my_loc = game.get_player_location(player)
+    # how far are the players from each other, the further the bigger number
+    players_distance = float(norm(subtract(my_loc,opp_loc)))    
+    
+    center_loc = game.width / 2., game.height / 2.
+    # how far are the players from the center of board
+    # the closer the bigger value - substracted from constant 6 as max distance from center
+    # TODO - the max distance could be rather calculated from board size - width, height
+    center_distance = float(6 - norm(subtract(my_loc,center_loc)))        
+    
+    blank = float(len(game.get_blank_spaces()))
+    space = float(game.width * game.height)
+    # percengate of space left
+    space_left = blank/space 
+    # return the value that considers the stage of the game and distance from center 
+    # the more space is left the more we should stay at center
+    # plus the more game proceeds the further we want to be from opponent 
+    # and we emphasize the number of moves advantage
+    return (space_left * center_distance) + ((1-space_left) * (players_distance + n_moves ))
 
 class IsolationPlayer:
     """Base class for minimax and alphabeta agents -- this class is never

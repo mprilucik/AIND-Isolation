@@ -19,3 +19,7 @@ sub = subtract(opp_loc, my_loc)
 dist = norm(subtract(my_loc,opp_loc))
 
 print (sub, dist)
+
+space_left = float(81.5656565)
+print (19 * 5 +  space_left * float(5.6666) + (100-space_left) * float(2.5556565))
+print (type(19 * 5 +  space_left * float(5.6666) + (100-space_left) * float(2.5556565)))
