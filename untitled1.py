@@ -5,7 +5,7 @@ Created on Mon Jun  5 18:30:08 2017
 @author: Petruska
 """
 import re
-with open('tournament_history2.txt','r') as f:
+with open('tournament_history.txt','r') as f:
     for l in f:
         if 'Rate' in l:
             l.replace('%','')
