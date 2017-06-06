@@ -2,9 +2,7 @@
 test your agent's strength against a set of known agents using tournament.py
 and include the results in your report.
 """
-import random
-import numpy
-from numpy import cross, subtract
+from numpy import subtract
 from numpy.linalg import norm
 
 class SearchTimeout(Exception):
